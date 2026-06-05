@@ -1,0 +1,94 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  * {
+    box-sizing: border-box;
+  }
+  body {
+    @apply font-sans antialiased;
+    background: #0f1623;
+    min-height: 100vh;
+  }
+}
+
+@layer components {
+  .glass-card {
+    background: rgba(255, 255, 255, 0.04);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+  }
+
+  .btn-primary {
+    @apply relative inline-flex items-center justify-center gap-2 px-6 py-3 font-semibold text-white rounded-xl
+           transition-all duration-200 overflow-hidden;
+    background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
+    box-shadow: 0 4px 15px rgba(37, 99, 235, 0.4);
+  }
+  .btn-primary:hover {
+    @apply scale-[1.02];
+    box-shadow: 0 6px 25px rgba(37, 99, 235, 0.55);
+  }
+  .btn-primary:active {
+    @apply scale-[0.98];
+  }
+  .btn-primary:disabled {
+    @apply opacity-60 cursor-not-allowed scale-100;
+    box-shadow: none;
+  }
+
+  .select-gov {
+    @apply w-full px-4 py-3 rounded-xl text-white font-medium outline-none
+           transition-all duration-200 cursor-pointer;
+    background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(255,255,255,0.12);
+    appearance: none;
+    -webkit-appearance: none;
+  }
+  .select-gov:focus {
+    border-color: #3b82f6;
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.25);
+  }
+  .select-gov option {
+    background: #1a2744;
+    color: white;
+  }
+
+  .table-row-animate {
+    animation: rowFadeIn 0.35s ease-out both;
+  }
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+@keyframes rowFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: rgba(255,255,255,0.04);
+  border-radius: 99px;
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(99,143,255,0.35);
+  border-radius: 99px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(99,143,255,0.6);
+}
