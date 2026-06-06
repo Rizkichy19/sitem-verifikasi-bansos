@@ -31,7 +31,7 @@ const VERVAL_GID_MAP = {
   'Ungaran Timur': '1449029472', // TODO: Masukkan GID untuk Ungaran Timur
 };
 
-export const COL = { NAMA:'NAMA', NIK:'NIK', ALAMAT:'ALAMAT', DESA:'DESA', KECAMATAN:'KECAMATAN' };
+export const COL = { NAMA:'NAMA', NIK:'NIK', ALAMAT:'ALAMAT', DESA:'DESA', KECAMATAN:'KECAMATAN', KATEGORI:'KATEGORI' };
 
 let cacheMentah = null;
 export function clearCache() { cacheMentah = null; }
@@ -71,7 +71,7 @@ export async function fetchCalonPengganti(kecamatan, onProgress) {
     const allRows = await fetchCSV(urlMentah);
     
     // Cari baris header secara otomatis
-    const KEYS = ['NAMA','NIK','KECAMATAN','ALAMAT'];
+    const KEYS = ['NAMA','NIK','KECAMATAN','ALAMAT','KETERANGAN'];
     let bestScore = 0, headerIdx = 0;
     allRows.slice(0, 25).forEach((row, i) => {
       const upper = row.map(c => String(c).toUpperCase());
@@ -86,17 +86,18 @@ export async function fetchCalonPengganti(kecamatan, onProgress) {
     const idxAlamat = headers.findIndex(h => h.includes('ALAMAT'));
     const idxDesa = headers.findIndex(h => h.includes('DESA') || h.includes('KELURAHAN'));
     const idxKec  = headers.findIndex(h => h.includes('KECAMATAN') || h.includes('KEC'));
+    const idxKeterangan = headers.findIndex(h => h.includes('KETERANGAN'));
 
     if (idxKec === -1 || idxNIK === -1 || idxNama === -1) {
       throw new Error("Gagal menemukan kolom KECAMATAN, NAMA, atau NIK di Data Mentah.");
     }
 
     const dataRows = allRows.slice(headerIdx + 1);
-    cacheMentah = { dataRows, idxNama, idxNIK, idxAlamat, idxDesa, idxKec };
+    cacheMentah = { dataRows, idxNama, idxNIK, idxAlamat, idxDesa, idxKec, idxKeterangan };
   }
   onProgress?.(1, 3);
 
-  const { dataRows: mentahRows, idxNama, idxNIK, idxAlamat, idxDesa, idxKec } = cacheMentah;
+  const { dataRows: mentahRows, idxNama, idxNIK, idxAlamat, idxDesa, idxKec, idxKeterangan } = cacheMentah;
   
   // Ambil hanya data Mentah untuk kecamatan terpilih (Normalisasi komparasi)
   const normKecamatanPilihan = normalizeString(kecamatan);
@@ -206,6 +207,7 @@ export async function fetchCalonPengganti(kecamatan, onProgress) {
     [COL.ALAMAT]:    String(r[idxAlamat] || '').trim(),
     [COL.DESA]:      String(r[idxDesa]   || '').trim(),
     [COL.KECAMATAN]: String(r[idxKec]    || kecamatan).trim(),
+    [COL.KATEGORI]:  String(idxKeterangan !== -1 && r[idxKeterangan] ? r[idxKeterangan] : '').trim(),
   }));
 
   onProgress?.(3, 3);

@@ -16,7 +16,7 @@ export default function App() {
   const [progress,   setProgress]   = useState({ step: 0, total: 3 });
 
   const STEP_LABELS = [
-    'Mengambil Data Mentah (5991 baris)...',
+    'Mengambil Data Mentah...',
     'Memfilter berdasarkan kecamatan...',
     'Mengambil Data Verval & membandingkan NIK...',
     'Selesai!',

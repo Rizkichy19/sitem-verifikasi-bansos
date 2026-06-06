@@ -88,7 +88,7 @@ export default function ResultTable({ data, kecamatanLabel }) {
         <table style={styles.table} aria-label="Data calon pengganti bansos DBHCHT">
           <thead>
             <tr style={styles.theadRow}>
-              {['NO', 'NAMA', 'NIK', 'ALAMAT', 'DESA/KEL.', 'KECAMATAN'].map(h => (
+              {['NO', 'NAMA', 'NIK', 'ALAMAT', 'DESA/KEL.', 'KECAMATAN', 'KATEGORI'].map(h => (
                 <th key={h} style={styles.th}>{h}</th>
               ))}
             </tr>
@@ -96,7 +96,7 @@ export default function ResultTable({ data, kecamatanLabel }) {
           <tbody>
             {pageData.length === 0 ? (
               <tr>
-                <td colSpan={6} style={{ padding: '32px', textAlign: 'center', color: '#64748b', fontSize: '14px' }}>
+                <td colSpan={7} style={{ padding: '32px', textAlign: 'center', color: '#64748b', fontSize: '14px' }}>
                   Tidak ada hasil untuk "{query}"
                 </td>
               </tr>
@@ -127,6 +127,9 @@ export default function ResultTable({ data, kecamatanLabel }) {
                   </td>
                   <td style={{ ...styles.td, color: '#7dd3fc', minWidth: '120px' }}>
                     {row[COL.KECAMATAN] || kecamatanLabel}
+                  </td>
+                  <td style={{ ...styles.td, minWidth: '140px' }}>
+                    <span style={styles.kategoriBadge}>{row[COL.KATEGORI] || '—'}</span>
                   </td>
                 </tr>
               ))
@@ -213,6 +216,11 @@ const styles = {
   desaBadge: {
     fontSize: '12px', padding: '3px 10px', borderRadius: '20px',
     background: 'rgba(16,185,129,0.1)', color: '#6ee7b7', border: '1px solid rgba(16,185,129,0.2)',
+  },
+  kategoriBadge: {
+    fontSize: '11px', padding: '4px 10px', borderRadius: '6px',
+    background: 'rgba(245,158,11,0.15)', color: '#fbbf24', border: '1px solid rgba(245,158,11,0.3)',
+    fontWeight: '600', display: 'inline-block', lineHeight: '1.2'
   },
   paginationWrap: { padding: '18px 24px', borderTop: '1px solid rgba(255,255,255,0.05)' },
   footer: {
